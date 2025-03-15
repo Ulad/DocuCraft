@@ -1,5 +1,5 @@
 """
-This module automates the generation of documents (in .docx and .pdf formats) based on input data.
+Module automates the generation of documents (in .docx and .pdf formats) based on input data.
 It uses a predefined Word template to create Word documents and (optionally) converts them to PDF.
 The module handles the entire workflow, including data loading, transformation, document generation, and conversion.
 The process relies on the 'docxtpl' library (https://docxtpl.readthedocs.io/en/latest/), using Jinja2.
