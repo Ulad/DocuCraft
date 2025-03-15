@@ -9,6 +9,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "docxtpl>=0.19.1",
+    "fastexcel>=0.13.0",
     "polars>=1.25.2",
     "pyyaml>=6.0.2",
 ]
