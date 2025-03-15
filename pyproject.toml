@@ -17,6 +17,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
+    "types-pyyaml>=6.0.12.20241230",
 ]
 
 [tool.mypy]
