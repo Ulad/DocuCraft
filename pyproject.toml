@@ -7,9 +7,76 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "docxtpl>=0.19.1",
+    "polars>=1.25.2",
+    "pyyaml>=6.0.2",
+]
 
 [dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
+]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+
+[tool.ruff]
+lint.select = [
+    "UP", # pyupgrade
+    "C4", # comprehensions
+    "SIM", # flake8-simplify
+    "TCH",
+    "DTZ", # flake8-datetimez
+    "PTH", # use pathlib
+    "RUF",
+    "PL",
+    "TRY",
+    "N", # pep8-naming
+    "R",
+    "B", # flake8-bugbear
+    "S", # flake8-bandit
+    "ANN", # flake8-annotation
+    "E", "W", # pycodestyle
+    "F", # pyflakes
+    "D" # documentaion
+]
+lint.ignore = [
+    "PTH123",
+    "RUF003", "RUF001", "RUF002", "RUF023",
+    "B012",
+    "S101",
+    "ANN401",
+    "E402", "E501",
+    "TRY003", "TRY300",
+    "D100", "D104", "D105", "D400", "D415", "D212", "D213", "D205", "D202", "D200", "D204"
+]
+exclude = [
+    "migrations",
+    "__pycache__",
+    "manage.py",
+    "env",
+    ".env",
+    "venv",
+    ".venv"
+]
+show-fixes = true
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = [
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "S101",  # use of "assert"
+    "S102",  # use of "exec"
+    "S106",  # possible hardcoded password.
+    "PGH001",  # use of "eval"
 ]
