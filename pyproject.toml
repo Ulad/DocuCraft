@@ -1,0 +1,9 @@
+[project]
+name = "docucraft"
+description = "A tool to generate Word documents from templates using Jinja2, with optional conversion to PDF."
+authors = [
+    { name = "Levchenko Vladislav V.", email = "levchenko19_97@mail.ru" }
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
