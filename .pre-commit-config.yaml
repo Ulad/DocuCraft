@@ -19,7 +19,7 @@ repos:
     rev: v1.15.0
     hooks:
       - id: mypy
-        args: [--strict]
+        args: [--strict, --local-partial-types, --warn-unreachable]
         additional_dependencies:
           - polars
           - types-pyyaml

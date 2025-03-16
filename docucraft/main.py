@@ -12,6 +12,7 @@ The process involves 2 main components:
 """
 
 from docucraft.src.data_loader import read_excel_table
+from docucraft.src.docx_creater import create_documents
 from docucraft.src.utils import get_peak_memory_usage, log_timeit
 from docucraft.src import logger
 from docucraft.config import settings as cfg
@@ -20,7 +21,11 @@ from docucraft.config import settings as cfg
 @log_timeit
 def main() -> None:
     """Orchestrates the entire workflow."""
-    read_excel_table(cfg.PATH_TO_EXCEL, table_name="dummy_data")
+    df_to_dict = read_excel_table(cfg.PATH_TO_EXCEL, table_name=cfg.TABLE_NAME_IN_EXCEL)
+    df_to_dict = df_to_dict.rows_by_key(key=cfg.GROUP_BY_COLUMN)
+    df_to_dict = {key: dict(value) for key, value in df_to_dict.items()}
+
+    create_documents(cfg.PATH_TO_DOCX_TPL, df_to_dict, cfg.OUTPUT_DIR_DOCX)
 
     logger.info(get_peak_memory_usage())
 

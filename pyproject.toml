@@ -23,6 +23,9 @@ dev = [
 
 [tool.mypy]
 strict = true
+local-partial-types = true
+warn-unreachable = true
+allow_redefinition = true
 
 [tool.ruff]
 lint.select = [
