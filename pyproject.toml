@@ -23,8 +23,8 @@ dev = [
 
 [tool.mypy]
 strict = true
-local-partial-types = true
-warn-unreachable = true
+local_partial_types = true
+warn_unreachable = true
 allow_redefinition = true
 
 [tool.ruff]
