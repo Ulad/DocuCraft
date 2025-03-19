@@ -8,6 +8,7 @@ Main library: [docxtpl](https://docxtpl.readthedocs.io/en/latest/)
 > 
 >Now you can use python-docx-template to generate as many word documents you want from this .docx template and context variables you will associate.
 
+The script was created for GitLab, so here is this file `.gitlab-ci.yaml`
 
 ## The scheme of the script
 ![Схема работы скрипта](assets/Схема.png)
