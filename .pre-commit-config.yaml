@@ -27,3 +27,13 @@ repos:
           - pydantic-settings
           - types-psutil
           - docxtpl
+
+
+  - repo: local
+    hooks:
+      - id: print_actual_packages
+        name: print_actual_packages
+        entry: 'uv tree --outdated --depth=1 --color=always'
+        language: system
+        pass_filenames: false
+        verbose: true
