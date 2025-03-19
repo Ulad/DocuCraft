@@ -3,6 +3,7 @@ from collections.abc import Callable
 from timeit import default_timer
 from typing import Any, TypeVar, cast
 from platform import system
+from functools import reduce
 
 from psutil import Process
 
@@ -58,3 +59,28 @@ def log_timeit(fnc: F) -> F:
         return result
 
     return cast(F, wrapper)
+
+
+def merge_dicts(*dicts: dict[str, Any]) -> dict[str, Any]:
+    """
+    >>> x = {'90 GOSSK St': {'Laptop': 744.62}, '54 BAZVE St': {'Sofa': 105.84, 'Apple': 686.6},}
+    >>> y = {
+    ...     '90 GOSSK St': {
+    ...         'table': [{'key': 'name1', 'value': 1849},
+    ...                   {'key': 'name2', 'value': 18993}]
+    ...     },
+    ... }
+    >>> merge_dicts(x, y)
+    {
+        '90 GOSSK St': {
+            'Laptop': 744.62,
+            'table': [{'key': 'name1', 'value': 1849},
+                      {'key': 'name2', 'value': 18993}]
+        },
+        '54 BAZVE St': {'Sofa': 105.84, 'Apple': 686.6},
+    }
+    """
+    return {
+        k: reduce(lambda x, y: x | y, [d.get(k, {}) for d in dicts])
+        for k in {k for d in dicts for k in d}
+    }
