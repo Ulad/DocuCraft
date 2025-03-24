@@ -6,7 +6,7 @@ from functools import reduce
 
 from psutil import Process
 
-from docucraft.src import logger
+from docucraft.src.logger import logger
 
 F = TypeVar('F', bound=Callable[..., Any])
 
@@ -38,11 +38,13 @@ def sanitize_filename(filename: str, replace_char: str = "_") -> str:
     :return: The sanitized filename.
     """
     invalid_chars = r'[<>:"/\|?*]'
-
-    for char in invalid_chars:
-        if char in filename:
-            filename = filename.replace(char, replace_char)
-    return filename.strip(". ")
+    try:
+        for char in invalid_chars:
+            if char in filename:
+                filename = filename.replace(char, replace_char).strip(". ")
+    except TypeError as e:
+        logger.error(f"Не удалось обработать {filename!r}, ошибка: {e}")
+    return filename
 
 
 def log_timeit(fnc: F) -> F:

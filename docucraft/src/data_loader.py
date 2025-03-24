@@ -6,7 +6,7 @@ from pathlib import Path
 
 from polars import DataFrame, read_excel
 
-from docucraft.src import logger
+from docucraft.src.logger import logger
 
 
 def read_excel_table(excel_path: Path, *, table_name: str) -> DataFrame:

@@ -14,7 +14,7 @@ The process involves 2 main components:
 from docucraft.src.data_loader import read_excel_table
 from docucraft.src.docx_creater import create_documents
 from docucraft.src.utils import get_peak_memory_usage, log_timeit
-from docucraft.src import logger
+from docucraft.src.logger import logger
 from docucraft.config import settings as cfg
 
 

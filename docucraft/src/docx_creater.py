@@ -12,7 +12,7 @@ from jinja2 import Environment, Undefined
 from jinja2.exceptions import UndefinedError
 from docxtpl import DocxTemplate # type: ignore
 
-from docucraft.src import logger
+from docucraft.src.logger import logger
 from docucraft.src.utils import sanitize_filename
 
 
@@ -96,6 +96,8 @@ def _process_document(*, template: DocxTemplate, output_dir: Path, output_file_n
     except:
         logger.exception(f"File processing error {output_path!r}")
         raise
+    else:
+        logger.info("%r успешно обработан.", output_file_name)
 
 
 def create_documents(tpl_path: Path,
