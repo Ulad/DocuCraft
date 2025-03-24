@@ -1,4 +1,3 @@
-from docucraft.src import logger
 from collections.abc import Callable
 from timeit import default_timer
 from typing import Any, TypeVar, cast
@@ -6,6 +5,8 @@ from platform import system
 from functools import reduce
 
 from psutil import Process
+
+from docucraft.src import logger
 
 F = TypeVar('F', bound=Callable[..., Any])
 
