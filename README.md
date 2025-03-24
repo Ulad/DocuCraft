@@ -15,15 +15,15 @@ The script was created for GitLab, so here is this file `.gitlab-ci.yaml`
 The main modules are located in the `src` directory, everything else just imports them with different settings.
 1. The `loader` module manages data loading
 2. The `docx_maker` module manages the creation and saving of reports
-3. The `pdf_converter` module manages conversion and saving.docx to .pdf 
+3. The `pdf_converter` module manages conversion and saving .docx to .pdf 
 4. The `main` module is the entry point of the program, it connects all modules
 
-In fact, these modules are independent and can be used separately, that is, they can only be created.docx or just convert to .pdf.
+In fact, these modules are independent and can be used separately, that is, they can only be created .docx or just convert to .pdf.
 
 ❗Sample data and Word documents are stored in `tests/`
 ## 🔧 Prerequisites
 
-- Windows Operating System (обязательно для корректной конвертации в PDF)
+- Windows Operating System (for PDF convertion)
 - Python 3.13+
 - Microsoft Word (installed locally)
 
@@ -55,7 +55,7 @@ The project uses separate settings file (by default, a text file is used.):
 - settings.py (# TODO файл .env)
 You need to specify the main variables in it.
 
-Important! In the `loader` module, the main function `load_excel_data` loads only from named tables, I did it because I want to and it's convenient. 😊
+Important! In the `loader` module, the main function `load_excel_data` loads only from Excel's named tables, I did it because I want to and it's convenient. 😊
 ```python
 PATH_TO_EXCEL = "path/to/your/excel/file.xlsx"
 TABLE_NAME_IN_EXCEL = ""
