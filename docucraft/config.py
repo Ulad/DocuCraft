@@ -1,15 +1,23 @@
+"""
+Pedantic-settings always tries to determine the values of fields by reading them from environment variables.
+By default, the name of the environment variable must match the name of the field.
+The default values will still be used if the corresponding environment variable is not set.
+Environment variables will always take precedence over the values loaded from the dotenv file.
+Documentation: https://docs.pydantic.dev/latest/concepts/pydantic_settings/
+"""
+
 from typing import Any
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from pathlib import Path
 
+BASE_DIR: Path = Path(__file__).parent.parent
 
 class Settings(BaseSettings):
     """Class for main settings"""
-    _case_sensitive = False
+    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", env_file_encoding="utf-8")
 
-    BASE_DIR: Path = Path(__file__).parent.parent
     PATH_TO_EXCEL: Path = BASE_DIR / 'tests' / 'templates' / 'dummy_excel.xlsx'
     TABLE_NAME_IN_EXCEL: str = 'dummy_data'
     GROUP_BY_COLUMN: str = 'Address'
