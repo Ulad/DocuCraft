@@ -81,10 +81,10 @@ def _get_custom_jinja2_env(*, prefix_msg: str | None=None, logger: Logger) -> En
     return env
 
 
-def _process_document(*, template: DocxTemplate, output_dir: Path, output_file_name: str,
+def _process_document(*, template: DocxTemplate, output_dir: Path, document_key: str,
                       context: dict[str, Any], prefix_msg_in_log: str) -> None:
     """Generate and save a Word document by filling in the template with data"""
-    output_path = output_dir / f"{sanitize_filename(output_file_name)}.docx"
+    output_path = output_dir / f"{sanitize_filename(document_key)}.docx"
     try:
         template.render(context, jinja_env=_get_custom_jinja2_env(prefix_msg=prefix_msg_in_log, logger=logger))
         template.save(output_path)
@@ -97,7 +97,7 @@ def _process_document(*, template: DocxTemplate, output_dir: Path, output_file_n
         logger.exception(f"File processing error {output_path!r}")
         raise
     else:
-        logger.info("%r успешно обработан.", output_file_name)
+        logger.info("%r успешно обработан.", document_key)
 
 
 def create_documents(tpl_path: Path,
@@ -120,17 +120,18 @@ def create_documents(tpl_path: Path,
     :return: Count of .docx
     """
     count_docx = 0
-    logger.info(f"Uploading a Word template : {tpl_path.name!r}")
+    logger.info(f"Uploading a Word template: {tpl_path.name!r}")
+    tpl = DocxTemplate(tpl_path)
+    tpl_vars = tpl.get_undeclared_template_variables()
     for key, data in dict_.items():
-        tpl = DocxTemplate(tpl_path)
-        undeclared_variables = data.keys() - tpl.get_undeclared_template_variables()
+        undeclared_variables = data.keys() - tpl_vars
         if undeclared_variables:
             logger.info(f"Unused data {key!r:<20}: {undeclared_variables!r}")
         _process_document(
             template=tpl,
             context=data,
             output_dir=output,
-            output_file_name=key,
+            document_key=key,
             prefix_msg_in_log=key
         )
         count_docx += 1
