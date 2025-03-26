@@ -41,7 +41,7 @@ wheels = [
 [[package]]
 name = "docucraft"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
     { name = "docxtpl" },
     { name = "fastexcel" },
