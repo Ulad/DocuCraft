@@ -70,11 +70,11 @@ def _get_custom_jinja2_env(*, prefix_msg: str | None=None, logger: Logger) -> En
             _log_message(self)
             return super().__bool__()
 
-    setlocale(LC_ALL, '')  # This will display numbers with spaces between the thousandths.
 
-    def f(value: int) -> str:
+    def f(value: float) -> str:
         """Format a rounded number with spaces between the thousandths"""
-        return f"{round(value, 0):n}" if value else "0"
+        setlocale(LC_ALL, '')  # This will display numbers with spaces between the thousandths.
+        return f"{int(round(value, 0)):n}" if value else "0"
 
     env = Environment(undefined=SilentLoggingUndefined, autoescape=True)
     env.globals.update(f=f)
