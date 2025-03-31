@@ -72,6 +72,9 @@ python main.py
 Most of it is described in the code dict[str, dict[str, Any]].
 How exactly this data gets into the main module `docx_maker` is not important, but in the test file I have made several popular data transformation cases
 
+## Known issues
+Some transformations have been done in the `main` so far, I don't know how to do it in a separate module yet, since the transformations are different in each case.
+
 ## Logging
 To output all logs to the console, it is enough to change the file `src/helpers/log_settings.yaml`
 ```yaml
