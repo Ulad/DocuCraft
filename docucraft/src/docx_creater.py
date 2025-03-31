@@ -82,11 +82,11 @@ def _get_custom_jinja2_env(*, prefix_msg: str | None=None, logger: Logger) -> En
 
 
 def _process_document(*, template: DocxTemplate, output_dir: Path, document_key: str,
-                      context: dict[str, Any], prefix_msg_in_log: str) -> None:
+                      context: dict[str, Any]) -> None:
     """Generate and save a Word document by filling in the template with data"""
     output_path = output_dir / f"{sanitize_filename(document_key)}.docx"
     try:
-        template.render(context, jinja_env=_get_custom_jinja2_env(prefix_msg=prefix_msg_in_log, logger=logger))
+        template.render(context, jinja_env=_get_custom_jinja2_env(prefix_msg=document_key, logger=logger))
         template.save(output_path)
 
     except UndefinedError:
@@ -131,8 +131,7 @@ def create_documents(tpl_path: Path,
             template=tpl,
             context=data,
             output_dir=output,
-            document_key=key,
-            prefix_msg_in_log=key
+            document_key=key
         )
         count_docx += 1
 
