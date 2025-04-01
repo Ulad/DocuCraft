@@ -14,10 +14,12 @@ WORKDIR /DocuCraft
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev
+    uv sync --locked --no-install-project --no-dev
 
-COPY . /DocuCraft
+COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+    uv sync --locked --no-dev
 
-CMD ["uv", "run", "docucraft/main.py"]
+ENV PATH="/DocuCraft/.venv/bin:$PATH"
+
+CMD ["python", "docucraft/main.py"]
