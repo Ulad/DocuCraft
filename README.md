@@ -1,7 +1,5 @@
 # DocuCraft
-The project automates the process of creating Word documents and (optionally) converting them to PDF files.
-
-The script is designed to run on Windows because it uses the COM interface of Microsoft Word. Microsoft Word must be installed. On other operating systems, the conversion takes place with formatting errors.
+The project automates the process of creating Word documents.
 
 Main library: [docxtpl](https://docxtpl.readthedocs.io/en/latest/)  
 >The idea is to begin to create an example of the document you want to generate with Microsoft Word, it can be as complex as you want : pictures, index tables, footer, header, variables, anything you can do with word. Then, as you are still editing the document with microsoft word, you insert jinja2-like tags directly in the document. You save the document as a .docx file (xml format) : it will be your .docx template file.
@@ -15,23 +13,15 @@ The script was created for GitLab, so here is this file `.gitlab-ci.yaml`
 The main modules are located in the `src` directory, everything else just imports them with different settings.
 1. The `loader` module manages data loading
 2. The `docx_maker` module manages the creation and saving of reports
-3. The `pdf_converter` module manages conversion and saving .docx to .pdf 
-4. The `main` module is the entry point of the program, it connects all modules
-
-In fact, these modules are independent and can be used separately, that is, they can only be created .docx or just convert to .pdf.
+3The `main` module is the entry point of the program, it connects all modules
 
 ❗Sample data and Word documents are stored in `tests/`
-## 🔧 Prerequisites
-
-- Windows Operating System (for PDF convertion)
-- Python 3.13+
-- Microsoft Word (installed locally)
 
 ## 🛠️ Installing
 
 Clone the repository to any folder, for example via HTTPS:
 ```bash
-git clone https://kwannon.ukterra.ru/analytics/test.git
+git clone https://github.com/Ulad/DocuCraft.git
 cd 'your directory'
 ```
 The project uses uv to resolve dependencies and virtual environment, if you are already using it, you can skip this step
@@ -58,12 +48,12 @@ You need to specify the main variables in it.
 Important! In the `loader` module, the main function `load_excel_data` loads only from Excel's named tables, I did it because I want to and it's convenient. 😊
 ```python
 PATH_TO_EXCEL = "path/to/your/excel/file.xlsx"
-TABLE_NAME_IN_EXCEL = ""
+TABLE_NAME_IN_EXCEL = "table_name"
 PATH_TO_DOCX_TPL = "path/to/your/template.docx"
 OUTPUT_DIR_DOCX = "path/to/output/docx/"
 OUTPUT_DIR_PDF = "path/to/output/pdf/"
 ```
-Just run src/main.py:
+Just run docucraft/main.py:
 ```bash
 python main.py
 ```
