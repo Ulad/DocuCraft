@@ -18,7 +18,10 @@ def read_excel_table(excel_path: Path, *, table_name: str) -> DataFrame:
     """
     df = read_excel(excel_path, table_name=table_name)
     logger.info(f"Loaded Excel table from: {excel_path.name, table_name!r}, shape: {df.shape}")
-    logger.info(f"Columns: {df.columns!r}")
+    logger.info(df.schema)
+    df_duplicated = df.filter(df.is_duplicated())
+    if not df_duplicated.is_empty():
+        logger.info(f"Duplicate rows found: {df_duplicated}")
     if df.null_count().sum_horizontal().sum():
         logger.warning(f"There is nulls in the data: {df.null_count().to_dict(as_series=False)}")
     return df
