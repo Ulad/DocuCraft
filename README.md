@@ -13,7 +13,7 @@ The script was created for GitLab, so here is this file `.gitlab-ci.yaml`
 The main modules are located in the `src` directory, everything else just imports them with different settings.
 1. The `loader` module manages data loading
 2. The `docx_maker` module manages the creation and saving of reports
-3The `main` module is the entry point of the program, it connects all modules
+3. The `main` module is the entry point of the program, it connects all modules
 
 ❗Sample data and Word documents are stored in `tests/`
 
@@ -24,7 +24,7 @@ Clone the repository to any folder, for example via HTTPS:
 git clone https://github.com/Ulad/DocuCraft.git
 cd 'your directory'
 ```
-The project uses uv to resolve dependencies and virtual environment, if you are already using it, you can skip this step
+The project uses [UV](https://docs.astral.sh/uv/) to resolve dependencies and virtual environment, if you are already using it, you can skip this step
 ```bash
 pip install uv
 ```
@@ -41,9 +41,11 @@ pip install -r requirements.txt --require-hashes
 
 ## ⚙️ Configuration and Usage
 
-The project uses separate settings file (by default, a text file is used.):
-- settings.py (# TODO файл .env)
-You need to specify the main variables in it.
+The project uses separate settings file with `pydantic_settings` library:
+
+- `settings.py`
+
+By default, variables for local development are specified there. In the production environment, you need to create environment variables with the same names or create an `.env` file in which you can also specify these variables. There is an example in the `.env.example` file.
 
 Important! In the `loader` module, the main function `load_excel_data` loads only from Excel's named tables, I did it because I want to and it's convenient. 😊
 ```python
@@ -51,16 +53,11 @@ PATH_TO_EXCEL = "path/to/your/excel/file.xlsx"
 TABLE_NAME_IN_EXCEL = "table_name"
 PATH_TO_DOCX_TPL = "path/to/your/template.docx"
 OUTPUT_DIR_DOCX = "path/to/output/docx/"
-OUTPUT_DIR_PDF = "path/to/output/pdf/"
 ```
-Just run docucraft/main.py:
+Just run `docucraft/main.py`:
 ```bash
 python main.py
 ```
-
-## 📝 Data requirements: (TODO describe it better)
-Most of it is described in the code dict[str, dict[str, Any]].
-How exactly this data gets into the main module `docx_maker` is not important, but in the test file I have made several popular data transformation cases
 
 ## Known issues
 Some transformations have been done in the `main` so far, I don't know how to do it in a separate module yet, since the transformations are different in each case.
@@ -71,8 +68,6 @@ To output all logs to the console, it is enough to change the file `src/helpers/
 consoleHandler:
   level: INFO  # Change from ERROR to INFO for detailed logs
 ```
-
-## Running in a test environment (environment variables?). Separation of work environments via init in settings.py
 
 ## License
 This repository is licensed under the [MIT License](https://github.com/Ulad/DocuCraft/blob/main/LICENSE)
