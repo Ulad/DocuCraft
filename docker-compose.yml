@@ -1,0 +1,26 @@
+services:
+  docucraft:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    
+    environment:
+      - PYTHONPATH=/DocuCraft
+    command: python docucraft/main.py
+
+    develop:
+      watch:
+        # Sync the project files with the container
+        - action: sync
+          path: ./docucraft
+          target: /DocuCraft/docucraft
+          ignore:
+            - "__pycache__/"
+            - "*.pyc"
+            - "logs/"
+            - "reports/"
+            - ".venv/"
+
+        # Rebuild if dependencies change
+        - action: rebuild
+          path: uv.lock
