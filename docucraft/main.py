@@ -31,5 +31,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    logger.info(cfg.model_dump_json(indent=4))
     main()

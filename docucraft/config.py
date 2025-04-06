@@ -11,6 +11,8 @@ from pydantic import FilePath, model_validator
 
 from pathlib import Path
 
+from docucraft.src.logger import logger
+
 BASE_DIR: Path = Path(__file__).parent.parent
 
 
@@ -38,3 +40,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+logger.info(settings.model_dump_json(indent=4))
