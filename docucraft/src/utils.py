@@ -57,7 +57,7 @@ def log_timeit[T, **P](func: Callable[P, T]) -> Callable[P, T]:
     return wrapper
 
 
-def merge_dicts[K, V](*dicts: dict[str, dict[K, Any]]) -> dict[str, dict[K, Any]]:
+def merge_dicts[K](*dicts: dict[str, dict[K, Any]]) -> dict[str, dict[K, Any]]:
     """
     >>> x = {'90 GOSSK St': {'Laptop': 744.62}, '54 BAZVE St': {'Sofa': 105.84},}
     >>> y = {'90 GOSSK St': {'table': [{'key': 'name1', 'value': 1849}]}}
