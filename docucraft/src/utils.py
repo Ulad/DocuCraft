@@ -1,14 +1,12 @@
 from collections.abc import Callable
 from timeit import default_timer
-from typing import Any, TypeVar, cast
+from typing import Any
 from platform import system
-from functools import reduce
+from functools import reduce, wraps
 
 from psutil import Process
 
 from docucraft.src.logger import logger
-
-F = TypeVar('F', bound=Callable[..., Any])
 
 
 def get_peak_memory_usage() -> str:
@@ -47,21 +45,15 @@ def sanitize_filename(filename: str, replace_char: str = "_") -> str:
     return filename
 
 
-def log_timeit(fnc: F) -> F:
-    """
-    Measure execution time of a decorated function
-    :param fnc: any function.
-    :return: function result and prints execution time.
-    """
-
-    def wrapper(*args: Any, **kwargs: Any) -> Any:
+def log_timeit[T, **P](func: Callable[P, T]) -> Callable[P, T]:
+    """Log execution time of a decorated function."""
+    @wraps(func)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
         start_time = default_timer()
-        result = fnc(*args, **kwargs)
-        finish_time = default_timer()
-        logger.info(f"Function {fnc.__name__!r} took: {finish_time - start_time:.3f} sec.")
+        result = func(*args, **kwargs)
+        logger.info(f"Function {func.__qualname__!r} took: {default_timer() - start_time:.2f} sec.")
         return result
-
-    return cast(F, wrapper)
+    return wrapper
 
 
 def merge_dicts(*dicts: dict[str, Any]) -> dict[str, Any]:
