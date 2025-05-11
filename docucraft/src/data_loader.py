@@ -16,6 +16,7 @@ def read_excel_table(excel_path: Path, *, table_name: str) -> DataFrame:
     :param table_name: Name of a specific table to read. Note that table names are unique across the workbook
     :return: DataFrame
     """
+    # TODO empty string to null
     df = read_excel(excel_path, table_name=table_name)
     logger.info(f"Loaded Excel table from: {excel_path.name, table_name!r}, shape: {df.shape}")
     logger.info(df.schema)
