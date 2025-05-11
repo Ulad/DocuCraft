@@ -40,4 +40,5 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-logger.info(settings.model_dump_json(indent=4))
+logger.info(f'Loaded from env: {settings.model_fields_set}')
+logger.info(f'Project setting: {settings.model_dump_json(indent=4)}')
