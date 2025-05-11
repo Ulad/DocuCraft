@@ -2,7 +2,8 @@ from collections.abc import Callable
 from timeit import default_timer
 from typing import Any
 from platform import system
-from functools import reduce, wraps
+from functools import wraps
+from collections import defaultdict
 
 from psutil import Process
 
@@ -56,26 +57,19 @@ def log_timeit[T, **P](func: Callable[P, T]) -> Callable[P, T]:
     return wrapper
 
 
-def merge_dicts(*dicts: dict[str, Any]) -> dict[str, Any]:
+def merge_dicts[K, V](*dicts: dict[str, dict[K, Any]]) -> dict[str, dict[K, Any]]:
     """
-    >>> x = {'90 GOSSK St': {'Laptop': 744.62}, '54 BAZVE St': {'Sofa': 105.84, 'Apple': 686.6},}
-    >>> y = {
-    ...     '90 GOSSK St': {
-    ...         'table': [{'key': 'name1', 'value': 1849},
-    ...                   {'key': 'name2', 'value': 18993}]
-    ...     },
+    >>> x = {'90 GOSSK St': {'Laptop': 744.62}, '54 BAZVE St': {'Sofa': 105.84},}
+    >>> y = {'90 GOSSK St': {'table': [{'key': 'name1', 'value': 1849}]}}
+    >>> result = {
+    ...     '54 BAZVE St': {'Sofa': 105.84},
+    ...     '90 GOSSK St': {'Laptop': 744.62, 'table': [{'key': 'name1', 'value': 1849}]}
     ... }
-    >>> merge_dicts(x, y)
-    {
-        '90 GOSSK St': {
-            'Laptop': 744.62,
-            'table': [{'key': 'name1', 'value': 1849},
-                      {'key': 'name2', 'value': 18993}]
-        },
-        '54 BAZVE St': {'Sofa': 105.84, 'Apple': 686.6},
-    }
+    >>> merge_dicts(x, y) == result
+    True
     """
-    return {
-        k: reduce(lambda x, y: x | y, [d.get(k, {}) for d in dicts])
-        for k in {k for d in dicts for k in d}
-    }
+    merged: dict[str, dict[K, Any]] = defaultdict(dict)
+    for dict_ in dicts:
+        for k, v in dict_.items():
+            merged[k].update(v)
+    return merged
