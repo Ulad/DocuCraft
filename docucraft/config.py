@@ -10,6 +10,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import FilePath, model_validator
 
 from pathlib import Path
+from pprint import pformat
 
 from docucraft.src.logger import logger
 
@@ -40,5 +41,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-logger.info(f'Loaded from env: {settings.model_fields_set}')
-logger.info(f'Project setting: {settings.model_dump_json(indent=4)}')
+logger.info(f'Project setting: {pformat(settings.model_dump())}')
