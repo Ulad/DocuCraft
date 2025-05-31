@@ -1,4 +1,4 @@
-from typing import Any, NoReturn
+from typing import Any, Never
 from collections.abc import Callable, Iterator  # noqa: F401
 
 from jinja2 import Environment, Undefined
@@ -36,7 +36,7 @@ class SilentLoggingUndefined(Undefined):
         """Define a message if an Undefined object is encountered."""
         logger.warning("Template variable warning %s: %s, ignoring.", self.prefix_msg, self._undefined_message)
 
-    def _fail_with_undefined_error(self, *args: Any, **kwargs: Any) -> NoReturn:
+    def _fail_with_undefined_error(self, *args: Any, **kwargs: Any) -> Never:
         self._log_message()
         super()._fail_with_undefined_error(*args, **kwargs)
 
