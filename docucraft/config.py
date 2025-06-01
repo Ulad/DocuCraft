@@ -41,4 +41,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-logger.info(f'Project setting: {pformat(settings.model_dump())}')
+logger.info(f'Project setting: \n{pformat(settings.model_dump())}')
