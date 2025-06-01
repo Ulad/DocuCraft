@@ -32,6 +32,10 @@ def _process_document(*, template: DocxTemplate, output_dir: Path, document_key:
     else:
         logger.info("%r Success", document_key)
 
+def create_documents_pre() -> None:
+    """Check data validity before generating documents"""
+    raise NotImplementedError
+
 
 def create_documents(tpl_path: Path,
                      dict_: dict[str, dict[str, str | float | list[dict[str, Any]] | dict[str, Any]]],
