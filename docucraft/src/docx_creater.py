@@ -51,6 +51,7 @@ def create_documents(tpl_path: Path,
     ...        'table1': [{'key': 'item1', 'value': 1849}]
     ...    },
     ... }
+
     :param tpl_path: The path to the template in which to replace {{ var }} with data from dict_
     :param dict_: Data for filling in variables
     :param output: The folder where the finished documents will be stored .docx

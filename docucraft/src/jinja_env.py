@@ -23,7 +23,7 @@ class SilentLoggingUndefined(Undefined):
 
     An example of the new behavior:
 
-    >>> spam = Undefined(name='spam')
+    >>> spam = SilentLoggingUndefined(name='spam')
     >>> spam + 42
     42
     """

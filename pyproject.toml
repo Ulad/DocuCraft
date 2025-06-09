@@ -9,8 +9,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "docxtpl>=0.19.1",
-    "fastexcel>=0.13.0",
-    "polars>=1.25.2",
+    "polars[calamine]>=1.25.2",
     "psutil>=7.0.0",
     "pydantic-settings>=2.8.1",
     "pyyaml>=6.0.2",
@@ -19,10 +18,9 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
+    "pytest>=8.4.0",
 ]
 
-[tool.uv]
-package = true
 
 [tool.mypy]
 strict = true
