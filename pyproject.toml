@@ -17,6 +17,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "docx2txt>=0.9",
     "pre-commit>=4.1.0",
     "pytest>=8.4.0",
 ]
