@@ -56,7 +56,6 @@ dependencies = [
     { name = "polars", extra = ["calamine"] },
     { name = "psutil" },
     { name = "pydantic-settings" },
-    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -73,7 +72,6 @@ requires-dist = [
     { name = "polars", extras = ["calamine"], specifier = ">=1.25.2" },
     { name = "psutil", specifier = ">=7.0.0" },
     { name = "pydantic-settings", specifier = ">=2.8.1" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
 ]
 
 [package.metadata.requires-dev]
