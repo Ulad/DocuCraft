@@ -53,14 +53,14 @@ class SilentLoggingUndefined(Undefined):
         return super().__bool__()
 
 
-def f(value: float) -> str:
+def num_format(value: float, precision: int = 0) -> str:
     """Format a rounded number with spaces between the thousandths"""
-    return f'{value:_.0f}'.replace('_', ' ') if value else "0"
+    return f'{value:_.{str(precision)}f}'.replace('_', ' ').replace('.', ',') if value else "0"
 
 
 def get_custom_jinja2_env(*, log_prefix_msg: str='') -> Environment:
     """Prepare the environment for Jinja2, which implements custom logging and ignores Undefined objects"""
     env = Environment(undefined=SilentLoggingUndefined, autoescape=True)
-    env.globals.update(f=f)
+    env.globals.update(f=num_format)
     SilentLoggingUndefined.prefix_msg = log_prefix_msg
     return env
