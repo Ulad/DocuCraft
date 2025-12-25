@@ -30,7 +30,7 @@ class SilentLoggingUndefined(Undefined):
     prefix_msg = ''
 
     __add__ = __radd__ = __sub__ = __rsub__ = \
-    __mul__ = __rmul__ = __div__ = __rdiv__ = lambda self, other: other  # type: Callable[[Any, Any], Any]
+    __mul__ = __rmul__ = __div__ = __rdiv__ = lambda other: other  # type: Callable[[Any, Any], Any]
 
     def _log_message(self) -> None:
         """Define a message if an Undefined object is encountered."""
