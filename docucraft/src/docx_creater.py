@@ -13,7 +13,7 @@ from docucraft.src.logger import logger
 from docucraft.src.utils import sanitize_filename
 from docucraft.src.jinja_env import get_custom_jinja2_env
 
-FileName = NewType('FileName', str)
+FileName = NewType('FileName', str) # TODO it's better to use Path!!!
 type TplContext = dict[str, Any]
 type FileContext = dict[FileName, TplContext]
 
