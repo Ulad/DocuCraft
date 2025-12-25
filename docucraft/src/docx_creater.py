@@ -2,7 +2,7 @@
 Module for generating and saving Word documents from templates using Jinja2 and docxtpl.
 """
 
-from typing import Any
+from typing import Any, NewType
 from collections.abc import Iterator, Callable # noqa: F401
 from pathlib import Path
 
@@ -13,38 +13,37 @@ from docucraft.src.logger import logger
 from docucraft.src.utils import sanitize_filename
 from docucraft.src.jinja_env import get_custom_jinja2_env
 
+FileName = NewType('FileName', str)
+type TplContext = dict[str, Any]
+type FileContext = dict[FileName, TplContext]
 
-def _process_document(*, template: DocxTemplate, output_dir: Path, document_key: str,
-                      context: dict[str, Any]) -> None:
+
+def create_docx_from_tpl(*, tpl: DocxTemplate, output_dir: Path | str, filename: FileName, context: TplContext) -> None:
     """Generate and save a Word document by filling in the template with data"""
-    output_path = output_dir / f"{sanitize_filename(document_key)}.docx"
+    output_dir = Path(output_dir)
+    output_path = output_dir / f"{sanitize_filename(filename)}.docx"
     try:
-        template.render(context, jinja_env=get_custom_jinja2_env(log_prefix_msg=document_key))
-        template.save(output_path)
-
+        tpl.render(context, jinja_env=get_custom_jinja2_env(log_prefix_msg=filename))
     except UndefinedError:
-        logger.exception(f"Error processing the {output_path!r} file. Perhaps the variable is involved in mathematical "
-                         f"operations, in which case it must be explicitly defined or processed in a template.")
+        logger.exception(f"Ошибка при обработке файла {output_path!r}. Возможно переменная участвует в математических "
+                         f"операциях, в таком случае она должна быть явно определена или обработана в шаблоне.")
         raise
-    except:
-        logger.exception(f"File processing error {output_path!r}")
-        raise
-    else:
-        logger.info("%r Success", document_key)
+
+    tpl.save(output_path)
+    logger.info("%r успешно обработан.", filename)
+  
 
 def create_documents_pre() -> None:
     """Check data validity before generating documents"""
     raise NotImplementedError
 
 
-def create_documents(tpl_path: Path,
-                     dict_: dict[str, dict[str, str | float | list[dict[str, Any]] | dict[str, Any]]],
-                     output: Path) -> int:
+def create_documents(tpl_path: Path | str, filecontext: FileContext, output: Path) -> int:
     """
     Create .docx from the template and data dictionary and saves it in the specified folder
-    'dict_' example_:
+    Dictionary keys should match the Jinja2 template variables in your .docx file (e.g., {{ title }}, {{ employees }})
 
-    >>> dict_ = {
+    >>> filecontext = {
     ...    '90 GOSSK St': {
     ...        'Laptop': 744.62,
     ...        'Apple': 10.56,
@@ -53,25 +52,28 @@ def create_documents(tpl_path: Path,
     ... }
 
     :param tpl_path: The path to the template in which to replace {{ var }} with data from dict_
-    :param dict_: Data for filling in variables
+    :param filecontext: Data for filling in variables
     :param output: The folder where the finished documents will be stored .docx
     :return: Count of .docx
     """
     count_docx = 0
-    logger.info(f"Uploading a Word template: {tpl_path.name!r}")
+    logger.info(f"Загрузка шаблона Word из: {tpl_path!r}")
+    tpl_path = Path(tpl_path)
     tpl = DocxTemplate(tpl_path)
     tpl_vars = tpl.get_undeclared_template_variables()
-    for key, data in dict_.items():
-        undeclared_variables = data.keys() - tpl_vars
-        if undeclared_variables:
-            logger.info(f"Unused data {key!r:<20}: {undeclared_variables!r}")
-        _process_document(
-            template=tpl,
-            context=data,
+
+    for address, context in filecontext.items():
+
+        if undeclared_variables := context.keys() - tpl_vars:
+            logger.info(f"Неиспользованные переменные {address!r}: {undeclared_variables!r}")
+
+        create_docx_from_tpl(
+            tpl=tpl,
+            context=context,
             output_dir=output,
-            document_key=key
+            filename=address
         )
         count_docx += 1
 
-    logger.info(f"Word documents are saved in {output.name!r}, count: {count_docx}")
+    logger.info(f"Word документы сохранены в {output!r}, кол-во: {count_docx}")
     return count_docx
