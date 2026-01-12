@@ -30,7 +30,7 @@ class SilentLoggingUndefined(Undefined):
     prefix_msg = ''
 
     __add__ = __radd__ = __sub__ = __rsub__ = \
-    __mul__ = __rmul__ = __div__ = __rdiv__ = lambda other: other  # type: Callable[[Any, Any], Any]
+    __mul__ = __rmul__ = __div__ = __rdiv__ = lambda self, other: other  # type: Callable[[Any, Any], Any]
 
     def _log_message(self) -> None:
         """Define a message if an Undefined object is encountered."""
@@ -53,7 +53,7 @@ class SilentLoggingUndefined(Undefined):
         return super().__bool__()
 
 
-def num_format(value: float, precision: int = 0) -> str:
+def f(value: float, precision: int = 0) -> str:
     """Format a rounded number with spaces between the thousandths"""
     return f'{value:_.{str(precision)}f}'.replace('_', ' ').replace('.', ',') if value else "0"
 
@@ -61,6 +61,6 @@ def num_format(value: float, precision: int = 0) -> str:
 def get_custom_jinja2_env(*, log_prefix_msg: str='') -> Environment:
     """Prepare the environment for Jinja2, which implements custom logging and ignores Undefined objects"""
     env = Environment(undefined=SilentLoggingUndefined, autoescape=True)
-    env.globals.update(f=num_format)
+    env.globals.update(f=f)
     SilentLoggingUndefined.prefix_msg = log_prefix_msg
     return env
