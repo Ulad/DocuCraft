@@ -8,8 +8,8 @@ from docxtpl import RichText, Listing, Subdoc, InlineImage # type: ignore
 type JinjaTag = Annotated[str, StringConstraints(pattern=r'^[a-zA-Z_][a-zA-Z0-9_]*$')]
 type JinjaValue = (
         str | float | None
-        | list[dict[JinjaTag, JinjaValue]]  # For tables
-        | dict[JinjaTag, JinjaValue]  # For nested data,
+        | list[JinjaContext]  # For tables
+        | JinjaContext  # For nested data
         | list[str]  # For dynamic columns mostly
         | RichText | InlineImage | Subdoc | Listing  # For docxtpl types
 )
