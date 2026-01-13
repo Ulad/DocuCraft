@@ -12,6 +12,7 @@ dependencies = [
     "polars[calamine]>=1.25.2",
     "psutil>=7.0.0",
     "pydantic-settings>=2.8.1",
+    # TODO pathvalidate for paths
 ]
 
 [dependency-groups]
